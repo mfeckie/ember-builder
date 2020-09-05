@@ -1,10 +1,10 @@
-FROM node:10.15.3
+FROM node:10.22.0
 
 LABEL author=mf@hotdoc.com.au
 
 ENV CI true
 
-# install chrome for default testem config (as of 2.15.0)
+# install chrome for default testem config
 RUN \
     apt-get update &&\
     apt-get install -y \
@@ -12,7 +12,7 @@ RUN \
         gnupg \
         --no-install-recommends &&\
 	curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - &&\
-	curl -sL https://sentry.io/get-cli/ | bash &\
+	curl -sL https://sentry.io/get-cli/ | bash &&\
 	echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list &&\
 	apt-get update &&\
 	apt-get install -y \
