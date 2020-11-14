@@ -1,4 +1,4 @@
-FROM node:10.22.0
+FROM node:15.2.0-buster-slim
 
 LABEL author=mf@hotdoc.com.au
 
@@ -7,29 +7,19 @@ ENV CI true
 # install chrome for default testem config
 RUN \
 	apt-get update &&\
-	apt-get install -y \
-	apt-transport-https \
-	gnupg \
-	--no-install-recommends &&\
-	curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - &&\
-	curl -sL https://sentry.io/get-cli/ | bash &&\
-	echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list &&\
-	apt-get update &&\
-	apt-get install -y \
-	google-chrome-stable \
-	--no-install-recommends
+	apt-get install -y chromium 
 
 # tweak chrome to run with --no-sandbox option
 RUN \
-	sed -i 's/"$@"/--no-sandbox "$@"/g' /usr/bin/chromium-browser
+	sed -i 's/"$@"/--no-sandbox "$@"/g' /usr/bin/chromium
 
 RUN mkdir -p /usr/src/app \
-	&& adduser -D chrome \
+	&& useradd chrome \
 	&& chown -R chrome:chrome /usr/src/app
 
 # Run Chrome as non-privileged
 USER chrome
 WORKDIR /usr/src/app
 
-ENV CHROME_BIN=/usr/bin/chromium-browser \
+ENV CHROME_BIN=/usr/bin/chromium\
 	CHROME_PATH=/usr/lib/chromium/
