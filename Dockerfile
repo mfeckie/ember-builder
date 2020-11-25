@@ -16,8 +16,8 @@ RUN \
 RUN mkdir -p /app  \
 	&& useradd chrome \
 	&& chown -R chrome:chrome /app \
-	&& mkdir -p /home/chrome/.cache/yarn \
-	&& chown -R chrome:chrome /home/chrome/.cache/yarn 
+	&& mkdir -p /home/chrome/.cache/yarn /home/chrome/.yarn /home/chrome/.config/configstore \
+	&& chown -R chrome:chrome /home/chrome/.cache/yarn /home/chrome/.yarn /home/chrome/.config/configstore
 
 # Run Chrome as non-privileged
 USER chrome
