@@ -13,9 +13,11 @@ RUN \
 RUN \
 	sed -i 's/"$@"/--no-sandbox "$@"/g' /usr/bin/chromium
 
-RUN mkdir -p /app \
+RUN mkdir -p /app  \
 	&& useradd chrome \
-	&& chown -R chrome:chrome /app
+	&& chown -R chrome:chrome /app \
+	&& mkdir -p /home/chrome/.cache/yarn \
+	&& chown -R chrome:chrome /home/chrome/.cache/yarn 
 
 # Run Chrome as non-privileged
 USER chrome
